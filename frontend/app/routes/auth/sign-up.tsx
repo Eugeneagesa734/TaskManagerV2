@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useSignUpMutation } from '@/hooks/use-auth';
 import { toast } from 'sonner';
 
@@ -18,6 +18,7 @@ export const clientLoader = async () => {
 };
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const form = useForm<SignupFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -33,8 +34,11 @@ const SignUp = () => {
   const handleOnSubmit = (values: SignupFormData) => {
     mutate(values, {
       onSuccess: () => {
-        toast.success("Account created successfully!");
+        toast.success("Email verification required", {
+          description: "Please check your email to verify your account before signing in.",
+        });
         form.reset();
+        navigate("/sign-in");
       },
       onError: (error: any) => {
         const errorMessage = error.response?.data?.message || "Something went wrong. Please try again.";

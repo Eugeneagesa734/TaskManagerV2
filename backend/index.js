@@ -1,12 +1,11 @@
+// Loading environment variables FIRST, before any other imports
+import './config.js';
+
 import cors from "cors"
-import dotenv from "dotenv"
 import express from "express"
 import mongoose from "mongoose"
 import morgan from "morgan"
-
 import routes from "./routes/index.js"
-
-dotenv.config()
 
 const app = express()
 
@@ -23,6 +22,7 @@ mongoose
     .connect(process.env.MONGODB_URI)
     .then((() => console.log("Db connected successfully")))
     .catch((err) => console.log("Failed to connect to DB", err));
+    
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
@@ -46,7 +46,6 @@ app.use((err, req, res, next) => {
 app.use((req, res)=> {
     res.status(404).json({ message: "Not found" });
 });
- 
 
 app.listen(PORT, ()=> {
     console.log(`Server running on port ${PORT}`)

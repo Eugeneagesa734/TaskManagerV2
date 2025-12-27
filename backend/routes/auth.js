@@ -25,5 +25,13 @@ router.post(
     loginUser
 
 );
+router.post(
+    "/verify-email",
+    validateRequest({
+        body: verifyEmailSchema,
+    }),
+    
+    verifyEmail
+);
 
 export default router;
