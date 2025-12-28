@@ -14,15 +14,15 @@ export const sendEmail = async (to, subject, html) => {
         subject,
         html,
     };
-};
 
     try {
         await sgMail.send(msg);
         console.log('Email sent successfully');
-
         return true;
     } catch (error) {
         console.error('Error sending email:', error);
-        
         return false;
     }
+};
+
+export default sendEmail;

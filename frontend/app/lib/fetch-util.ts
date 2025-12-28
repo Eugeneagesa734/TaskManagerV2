@@ -1,18 +1,6 @@
-// @ts-ignore
-if (typeof window === 'undefined') {
-    global.localStorage = {
-        getItem: () => null,
-        setItem: () => {},
-        removeItem: () => {},
-        clear: () => {},
-        key: () => null,
-        length: 0
-    };
-}
-
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api-v1/auth/register';
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api-v1';
 
 const api = axios.create({
     baseURL: BASE_URL,
@@ -22,27 +10,27 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    const token = localStorage.getItem('token');
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
+
 });
 
 api.interceptors.response.use(
     (response) => response,  
     (error)=> {
         if (error.response && error.response.status === 401) {
-            if (typeof window !== 'undefined') {
-                window.dispatchEvent(new Event("force-logout"));
-            }
+            window.dispatchEvent(new Event("force-logout"));
         }
         return Promise.reject(error);
-    }
-);
+       
+    });
 
 const postData = async <T>(path: string, data: unknown): Promise<T> => {
     const response = await api.post(path, data);
+
     return response.data;
 };
 

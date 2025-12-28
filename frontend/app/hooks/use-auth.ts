@@ -18,3 +18,11 @@ export const useSignInMutation = () => {
     },
   });
 };
+
+export const useVerifyEmailMutation = () => {
+  return useMutation({
+    mutationFn: async (data: { token: string }) => {
+      return postData('/auth/verify-email', data);
+    },
+  });
+};
