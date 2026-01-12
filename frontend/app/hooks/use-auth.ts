@@ -11,13 +11,20 @@ export const useSignUpMutation = () => {
   });
 };
 
-export const useSignInMutation = () => {
+export const useLoginMutation = () => {
   return useMutation({
     mutationFn: async (data: { email: string; password: string }) => {
       return postData('/auth/login', data);
     },
   });
 };
+
+export const useForgotPasswordMutation = () => {
+  return useMutation({
+    mutationFn: (data: {email: string }) =>
+      postData("/auth/reset-password-request", data),
+  });
+}
 
 export const useVerifyEmailMutation = () => {
   return useMutation({
@@ -26,3 +33,4 @@ export const useVerifyEmailMutation = () => {
     },
   });
 };
+

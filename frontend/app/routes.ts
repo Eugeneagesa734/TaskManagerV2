@@ -12,6 +12,9 @@ export default [
         route("reset-password", "routes/auth/reset-password.tsx"),
         route("verify-email/:token", "routes/auth/verify-email.$token.tsx"),
     ]),
+    layout("routes/dashboard/dashboard-layout.tsx", [
+        route("dashboard", "routes/dashboard/index.tsx"),
+    ]),
 ] satisfies RouteConfig;
 
 //index("routes/root/home.tsx")
